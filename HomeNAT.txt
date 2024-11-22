@@ -1,0 +1,42 @@
+en
+conf t
+int fa0/0
+ip nat inside
+exit
+int fa0/1
+ip nat inside
+exit
+int fa1/1
+ip nat outside
+exit
+access-list 1 permit 192.168.1.0 0.0.0.255
+ip nat pool 1 20.0.0.3 20.0.0.100 netmask 255.0.0.0
+ip nat inside source list 1 pool 1
+exit
+access-list 2 permit 192.168.2.0 0.0.0.255
+ip nat pool 2 20.0.0.110 20.0.0.200 netmask 255.0.0.0
+ip nat inside source list 2 pool 2
+exit
+
+
+en
+conf t
+int fa0/0
+ip nat inside
+exit
+int fa0/1
+ip nat inside
+exit
+int fa1/1
+ip nat outside
+exit
+
+access-list 1 permit 192.168.1.0 0.0.0.255
+access-list 2 permit 192.168.2.0 0.0.0.255
+
+ip nat pool POOL1 20.0.0.3 20.0.0.100 netmask 255.0.0.0
+ip nat pool POOL2 20.0.0.110 20.0.0.200 netmask 255.0.0.0
+
+ip nat inside source list 1 pool POOL1
+ip nat inside source list 2 pool POOL2
+exit
